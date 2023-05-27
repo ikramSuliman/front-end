@@ -1,6 +1,15 @@
+<?php
+header('Locatin:../dashboard.php');
+?>
+<?php
+include ('../db.php');
+$sql="SELECT * FROM users";
+$result=$con->query($sql);
+?>
 <!DOCTYPE html>
 <html>
 <head>
+  
     <title>All Users</title>
     <style>
     body{
@@ -35,6 +44,16 @@
   </style>
 </head>
 <body>
+<header>   <div class="form">
+<div><?php if(isset($message)) { echo $message; } ?>
+</div>
+      
+        <p>You are in user dashboard page.</p>
+        <p><a href="../logout.php">Logout</a></p>
+    </div></header>
+<?php
+if($result->num_rows > 0){
+?>
   <h1>All Users</h1>
   
   <table>
@@ -44,83 +63,38 @@
         <th>Name</th>
         <th>Email</th>
         <th>Password</th>
+        <th>Created-at</th>
         <th>Edit/Delete</th>
 
       </tr>
+      <?php
+			$i=0;
+      while($row=$result->fetch_assoc()){
+			?>
     </thead>
-    <tbody>
+    
       <tr>
-        <td>Data 1</td>
-        <td>Data 2</td>
-        <td>Data 3</td>
-        <td>Data 4</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
+        <td><?php echo $row["id"]; ?></td>
+        <td><?php echo $row["username"];?></td>
+        <td><?php echo $row["email"];?></td>
+        <td><?php echo $row["password"];?></td>
+        <td><?php echo $row["createdatetime"];?></td>
+        <td><p><button><a href="delete.php?id=<?php echo $row["id"]; ?>">Delete</a></button>
+        <button><a href="edite.php?id=<?php echo $row["id"]; ?>">Edite</a></button></p></td>
       </tr>
-      <tr>
-        <td>Data 4</td>
-        <td>Data 5</td>
-        <td>Data 6</td>
-        <td>Data 6</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-      <tr>
-        <td>Data 7</td>
-        <td>Data 8</td>
-        <td>Data 9</td>
-        <td>Data 9</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-      <tr>
-        <td>Data 7</td>
-        <td>Data 8</td>
-        <td>Data 9</td>
-        <td>Data 9</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-      <tr>
-        <td>Data 7</td>
-        <td>Data 8</td>
-        <td>Data 9</td>
-        <td>Data 9</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-      <tr>
-        <td>Data 7</td>
-        <td>Data 8</td>
-        <td>Data 9</td>
-        <td>Data 9</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-      <tr>
-        <td>Data 7</td>
-        <td>Data 8</td>
-        <td>Data 9</td>
-        <td>Data 9</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-      <tr>
-        <td>Data 7</td>
-        <td>Data 8</td>
-        <td>Data 9</td>
-        <td>Data 9</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-      <tr>
-        <td>Data 7</td>
-        <td>Data 8</td>
-        <td>Data 9</td>
-        <td>Data 9</td> 
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-      <tr>
-        <td>Data 7</td>
-        <td>Data 8</td>
-        <td>Data 9</td>
-        <td>Data 9</td>
-        <td><p><button>Delete</button> <button>Edite</button></p></td>
-      </tr>
-    </tbody>
+      <?php
+			$i++;
+			}
+			?>
+
   </table>
+  <?php
+}
+else
+{
+    echo "No result found";
+}
+?>
   <footer>
 <?php
 include('a.html')
